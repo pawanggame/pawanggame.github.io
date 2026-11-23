@@ -115,6 +115,363 @@
   }
   .pg-btn-cart:hover { background: #D73211; }
 
+  .pg-mobile-menu-btn {
+    display: none;
+    background: #374151;
+    border: 1px solid #4B5563;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .pg-mobile-menu-btn:hover { background: #4B5563; }
+
+  /* MAIN NAV TABS */
+  .pg-nav-tabs {
+    background: #182234;
+    border-bottom: 1px solid #2D3748;
+    padding: 8px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .pg-mobile-only-item {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .pg-header {
+      padding: 10px 12px;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+    .pg-brand-wrap {
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+      flex-wrap: nowrap;
+    }
+    .pg-logo-img {
+      width: 34px;
+      height: 34px;
+    }
+    .pg-brand {
+      font-size: 15px;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pg-promo {
+      display: none;
+    }
+    .pg-header-actions {
+      gap: 6px;
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+    }
+    .pg-header-actions .pg-btn-tg,
+    .pg-header-actions .pg-btn-browser {
+      display: none !important;
+    }
+    .pg-btn-cart {
+      padding: 8px 10px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .pg-mobile-menu-btn {
+      display: inline-flex;
+    }
+    .pg-nav-tabs {
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 10px 12px 12px;
+      gap: 8px;
+      position: sticky;
+      top: 55px;
+      z-index: 39;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+    }
+    .pg-nav-tabs.mobile-open {
+      display: flex;
+    }
+    .pg-nav-tabs .pg-tab-btn,
+    .pg-nav-tabs .pg-mobile-only-item {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+    .pg-nav-tabs .pg-mobile-only-item {
+      display: inline-flex;
+    }
+    .pg-nav-tabs .pg-mobile-promo {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4ADE80;
+      background: rgba(74, 222, 128, 0.12);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+  }
+  .pg-tab-btn {
+    background: transparent;
+    color: #D1D5DB;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .pg-tab-btn:hover { background: #243249; color: #FFFFFF; }
+  .pg-tab-btn.active {
+    background: #2563EB;
+    border-color: #3B82F6;
+    color: #FFFFFF;
+  }
+  .pg-page-section { display: none; }
+  .pg-page-section.active { display: block; }
+
+  /* TUTORIAL PAGE */
+  .pg-section-head {
+    margin-bottom: 16px;
+  }
+  .pg-section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 6px;
+  }
+  .pg-section-sub {
+    font-size: 13px;
+    color: #9CA3AF;
+    margin: 0;
+  }
+  .pg-tut-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  @media (max-width: 820px) {
+    .pg-tut-grid { grid-template-columns: 1fr; }
+  }
+  .pg-tut-card {
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .pg-yt-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0B1120;
+  }
+  .pg-yt-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+  }
+  .pg-yt-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.25s ease, filter 0.25s ease;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+  }
+  .pg-yt-link:hover .pg-yt-thumb {
+    transform: scale(1.04);
+    filter: brightness(0.82);
+  }
+  .pg-yt-play-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(220, 38, 38, 0.92);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .pg-yt-link:hover .pg-yt-play-badge {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: #EF4444;
+  }
+  .pg-yt-open-pill {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background: rgba(17, 24, 39, 0.88);
+    color: #F9FAFB;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 6px;
+  }
+  .pg-yt-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    text-align: center;
+    color: #9CA3AF;
+    font-size: 13px;
+  }
+  .pg-tut-body {
+    padding: 12px 14px;
+  }
+  .pg-tut-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4ADE80;
+    background: rgba(74, 222, 128, 0.12);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 6px;
+  }
+  .pg-tut-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 6px;
+  }
+  .pg-tut-desc {
+    font-size: 13px;
+    color: #D1D5DB;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* FAQ & TESTIMONI PAGE */
+  .pg-faq-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .pg-faq-layout { grid-template-columns: 1fr; }
+  }
+  .pg-faq-item {
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .pg-faq-q {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #F9FAFB;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 15px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .pg-faq-q:hover { background: #263346; }
+  .pg-faq-a {
+    display: none;
+    padding: 0 15px 13px;
+    font-size: 13px;
+    color: #D1D5DB;
+    line-height: 1.6;
+    border-top: 1px solid #2D3748;
+    padding-top: 10px;
+  }
+  .pg-faq-item.open .pg-faq-a { display: block; }
+  .pg-faq-item.open .pg-faq-arrow { transform: rotate(180deg); }
+  .pg-faq-arrow { transition: transform 0.15s ease; color: #93C5FD; flex-shrink: 0; }
+
+  .pg-testi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pg-testi-card {
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .pg-testi-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .pg-testi-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FFFFFF;
+  }
+  .pg-testi-stars {
+    color: #FACC15;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .pg-testi-game {
+    font-size: 11px;
+    color: #93C5FD;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .pg-testi-text {
+    font-size: 13px;
+    color: #E5E7EB;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .pg-testi-img {
+    margin-top: 8px;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    display: block;
+  }
+  .pg-email-err {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #F87171;
+    display: none;
+  }
+  .pg-email-err.show { display: block; }
+
   /* CONTROLS */
   .pg-container {
     max-width: 1340px;
@@ -622,10 +979,22 @@
       <button type="button" class="pg-btn pg-btn-browser" id="pg-btn-open-browser" style="display:none;">🌐 Buka di Browser</button>
       <button type="button" class="pg-btn pg-btn-tg" id="pg-btn-chat-header">💬 Chat Aku di Telegram</button>
       <button type="button" class="pg-btn pg-btn-cart" id="pg-btn-open-cart">🛒 Keranjang (0) - Rp 0</button>
+      <button type="button" class="pg-btn pg-mobile-menu-btn" id="pg-btn-mobile-menu" aria-expanded="false" aria-controls="pg-nav-tabs">☰ Menu</button>
     </div>
   </header>
 
+  <!-- NAVIGASI HALAMAN (Otomatis jadi menu dropdown di HP) -->
+  <nav class="pg-nav-tabs" id="pg-nav-tabs" aria-label="Navigasi Halaman">
+    <div class="pg-mobile-only-item pg-mobile-promo">Promo Beli 1 Gratis 1</div>
+    <button type="button" class="pg-btn pg-btn-tg pg-mobile-only-item" id="pg-btn-chat-mobile">💬 Chat Aku di Telegram</button>
+    <button type="button" class="pg-tab-btn active" data-tab="katalog" id="pg-tab-katalog">🎮 Katalog Game</button>
+    <button type="button" class="pg-tab-btn" data-tab="tutorial" id="pg-tab-tutorial">📺 Tutorial Download &amp; Install</button>
+    <button type="button" class="pg-tab-btn" data-tab="faq" id="pg-tab-faq">❓ Pertanyaan</button>
+  </nav>
+
   <main class="pg-container">
+    <!-- HALAMAN 1: KATALOG GAME -->
+    <section class="pg-page-section active" id="pg-sec-katalog">
     <!-- BARIS 1: KATEGORI, SORTIR, SEARCH -->
     <div class="pg-filter-bar">
       <div class="pg-cat-group" id="pg-cat-group"></div>
@@ -655,6 +1024,36 @@
       <button type="button" class="pg-btn pg-load-more-btn" id="pg-load-more-btn" style="display:none;">Muat 30 Game Lagi</button>
     </div>
     <div id="pg-scroll-sentinel" style="height:1px;"></div>
+    </section>
+
+    <!-- HALAMAN 2: TUTORIAL DOWNLOAD & EMBED YOUTUBE -->
+    <section class="pg-page-section" id="pg-sec-tutorial">
+      <div class="pg-section-head">
+        <h2 class="pg-section-title">📺 Tutorial Download, Install &amp; Setting Game</h2>
+        <p class="pg-section-sub">Ikuti panduan video resmi Pawang Game di bawah ini agar proses download dan main game berjalan lancar.</p>
+      </div>
+      <div class="pg-tut-grid" id="pg-tut-grid"></div>
+    </section>
+
+    <!-- HALAMAN 3: FAQ & TESTIMONI -->
+    <section class="pg-page-section" id="pg-sec-faq">
+      <div class="pg-faq-layout">
+        <div>
+          <div class="pg-section-head">
+            <h2 class="pg-section-title">❓ Pertanyaan yang Sering Ditanyakan (FAQ)</h2>
+            <p class="pg-section-sub">Jawaban cepat seputar pemesanan, akses Google Drive, dan promo Beli 1 Gratis 1.</p>
+          </div>
+          <div id="pg-faq-list"></div>
+        </div>
+        <div>
+          <!-- <div class="pg-section-head">
+            <h2 class="pg-section-title">⭐ Testimoni Pembeli</h2>
+            <p class="pg-section-sub">Ulasan dari pembeli yang sudah order di Pawang Game Store.</p>
+          </div> -->
+          <div class="pg-testi-list" id="pg-testi-list"></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- MODAL PREVIEW -->
@@ -701,8 +1100,9 @@
         <div id="pg-cart-list"></div>
         <div id="pg-cart-total" style="text-align:center;font-size:16px;font-weight:800;color:#4ADE80;margin:14px 0 8px;"></div>
         <div class="pg-email-box">
-          <label for="pg-buyer-email" class="pg-label">Email Pengiriman Game (Wajib diisi):</label>
-          <input type="email" id="pg-buyer-email" class="pg-input" placeholder="Masukkan alamat email aktif kamu (contoh: nama@gmail.com)..." />
+          <label for="pg-buyer-email" class="pg-label">Alamat Gmail Pengiriman Game (Wajib @gmail.com untuk akses Google Drive):</label>
+          <input type="email" id="pg-buyer-email" class="pg-input" placeholder="Contoh: nama@gmail.com (Wajib pakai @gmail.com)" />
+          <div class="pg-email-err" id="pg-buyer-email-err">⚠️ Wajib menggunakan alamat @gmail.com agar bisa mengakses link Google Drive.</div>
         </div>
       </div>
       <div class="pg-modal-footer">
@@ -727,8 +1127,9 @@
         <div id="pg-buynow-item-box"></div>
         <div id="pg-buynow-total" style="text-align:center;font-size:16px;font-weight:800;color:#4ADE80;margin:14px 0 8px;"></div>
         <div class="pg-email-box">
-          <label for="pg-buynow-email" class="pg-label">Email Pengiriman Game (Wajib diisi):</label>
-          <input type="email" id="pg-buynow-email" class="pg-input" placeholder="Masukkan alamat email aktif kamu (contoh: nama@gmail.com)..." />
+          <label for="pg-buynow-email" class="pg-label">Alamat Gmail Pengiriman Game (Wajib @gmail.com untuk akses Google Drive):</label>
+          <input type="email" id="pg-buynow-email" class="pg-input" placeholder="Contoh: nama@gmail.com (Wajib pakai @gmail.com)" />
+          <div class="pg-email-err" id="pg-buynow-email-err">⚠️ Wajib menggunakan alamat @gmail.com agar bisa mengakses link Google Drive.</div>
         </div>
       </div>
       <div class="pg-modal-footer">
@@ -783,6 +1184,109 @@
   const BRANCH = "main";
   const BASE_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/refs/heads/${BRANCH}/`;
   const CATALOG_URL = BASE_RAW_URL + "katalog.json";
+
+  // ==========================================
+  // DATA HALAMAN TUTORIAL (GANTI LINK YOUTUBE KAMU DI SINI)
+  // Cukup paste link YouTube biasa (youtube.com/watch?v=... atau youtu.be/...)
+  // ==========================================
+  const TUTORIAL_VIDEOS = [
+    {
+      tag: "Tutorial Download",
+      title: "Cara Download & Akses Link Google Drive di Pawang Game",
+      youtubeUrl: "https://youtu.be/2JnO-MZVei8?si=9bzF5NTeOoCh6_6X", // Paste link video YouTube kamu di sini, contoh: "https://youtu.be/VIDEO_ID"
+    },
+    {
+      tag: "Tutorial Ekstrak",
+      title: "Cara Ekstrak & Install",
+      youtubeUrl: "https://youtu.be/mltMa1HV4PU?si=V5MAxR162PNnug9b", // Paste link video YouTube kamu di sini
+      desc: "Panduan ekstrak file menggunakan extract all / extract here"
+    },
+    {
+      tag: "Tutorial setting joystick",
+      title: "Cara Setting Joystick + Player 2",
+      youtubeUrl: "https://youtu.be/AuR54HHVUzE?si=WfneH2aZpq0Ph2zP", // Paste link video YouTube kamu di sini
+      desc: "Setting stik untuk emulator PS1 dan PS2"
+    },
+    {
+      tag: "Tutorial setting joystick manual",
+      title: "Setting MANUAL Joystick + Player 2",
+      youtubeUrl: "https://youtu.be/X-7KuxomYkw?si=mukDZ_wJo8wctDLg", // Paste link video YouTube kamu di sini
+      desc: "jika stik kamu tidak support automatic mapping"
+    },
+    {
+      tag: "Tutorial pakai x360ce",
+      title: "Cara Perbaiki Stik dengan x360ce + Player 2",
+      youtubeUrl: "https://youtu.be/zoccxddLzU8?si=wY2Rp2gpFv8N9vTH", // Paste link video YouTube kamu di sini
+      desc: "jika stik kamu butuh x360ce"
+    }
+  ];
+
+  // ==========================================
+  // DATA FAQ & TESTIMONI (MUDAH DIEDIT DI SINI)
+  // ==========================================
+  const FAQ_ITEMS = [
+    {
+      q: "Min ini game online? perlu steam?",
+      a: "Tidak kaka, game kita semua nya offline ya, standalone dan tidak perlu steam."
+    },
+    {
+      q: "Perlu install dan setting emulator gak?",
+      a: "Tidak perlu ya kk, game2 kita sudah paket komplit, tinggal main aja tanpa perlu install2 emulator lagi."
+    },
+    {
+      q: "Kenapa saat checkout wajib memakai alamat @gmail.com?",
+      a: "Karena seluruh file game dibagikan melalui Google Drive pribadi. Email selain @gmail.com (seperti Yahoo/Outlook/iCloud) tidak bisa diberikan akses langsung ke folder Google Drive."
+    },
+    {
+      q: "Bisa di android? di ios? di PS?",
+      a: "Tidak kaka, game2 kita sudah di set khusus untuk PC/Laptop aja yaa"
+    },
+    {
+      q: "Bagaimana cara klaim Promo Beli 1 Gratis 1?",
+      a: "Saat klik Beli Langsung atau membuka Keranjang, cukup klik tombol 'Tambah Bonus Game' di sebelah kanan game yang kamu beli, lalu pilih 1 game gratis bebas dari seluruh katalog."
+    },
+    {
+      q: "Apakah pembayaran QRIS langsung terkonfirmasi otomatis?",
+      a: "Ya! Setelah scan QRIS pakai GoPay, DANA, OVO, ShopeePay, atau m-Banking apa saja, sistem otomatis mendeteksi status LUNAS dalam beberapa detik dan langsung meneruskan pesanan ke admin."
+    },
+    {
+      q: "Berapa lama link Google Drive dikirim setelah bayar?",
+      a: "Akses Google Drive langsung dikirimkan ke alamat Gmail kamu secepatnya setelah pembayaran terkonfirmasi. Kamu juga bisa simpan bukti pembelian (.JPG) atau klik tombol Chat Telegram jika butuh bantuan cepat."
+    },
+    {
+      q: "Apakah game bisa dimainkan secara offline?",
+      a: "Bisa! Setelah selesai download dan install dari Google Drive, seluruh game PC, PS1, dan PS2 bisa langsung dimainkan secara offline tanpa koneksi internet."
+    },
+    {
+      q: "Apa spesifikasi minimal untuk game Nostalgia PS1 & PS2?",
+      a: "Untuk PS1 minimal prosesor i3 Gen 2, RAM 2GB+, Windows 10 (min. 1809 / Sept 2018). Untuk PS2 minimal prosesor i3 Gen 6, RAM 4GB+, Windows 10 (min. 1809 / Sept 2018)."
+    }
+  ];
+
+  // Kamu bisa menambahkan foto screenshot testimoni dengan mengisi field image: "testi1.jpg" (upload file-nya ke repo)
+  const TESTIMONIALS = [
+    // {
+    //   name: "Rizky P.",
+    //   game: "GTA San Andreas + Bonus Bully",
+    //   stars: 5,
+    //   text: "Bayar pakai QRIS langsung kebaca lunas otomatis, gak ribet konfirmasi manual. Akses Google Drive cepat banget masuk ke Gmail!",
+    //   image: ""
+    // },
+    // {
+    //   name: "Dimas A.",
+    //   game: "Downhill Domination (PS2) + Bonus Resident Evil 4",
+    //   stars: 5,
+    //   text: "Nostalgia PS2 lancar banget di laptop i3. Tutorialnya jelas, promo beli 1 gratis 1 beneran bebas pilih game apa aja.",
+    //   image: ""
+    // },
+    // {
+    //   name: "Fajar N.",
+    //   game: "Need for Speed Most Wanted + Bonus PES",
+    //   stars: 5,
+    //   text: "Katalog lengkap banget 700+ game dan harganya terjangkau. Admin Telegram juga fast respon pas tanya setting stik.",
+    //   image: ""
+    // }
+  ];
 
   const STORAGE_KEY = "pawanggame_cart_v1";
   const GRID_BATCH = 30;
@@ -883,9 +1387,123 @@
     } catch (e) {}
   }
 
+  function isValidGmail(email) {
+    const clean = String(email || "").trim().toLowerCase();
+    return /^[a-z0-9._%+-]{3,}@gmail\.com$/.test(clean);
+  }
+
+  function extractYoutubeId(input) {
+    const s = String(input || "").trim();
+    if (!s) return "";
+    if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
+    const m = s.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : "";
+  }
+
   function openTelegramChat() {
     const u = TELEGRAM_USERNAME.replace(/^@/, "").trim();
     window.open(`https://t.me/${u}`, "_blank", "noopener");
+  }
+
+  // ==========================================
+  // NAVIGASI TAB & RENDER HALAMAN TUTORIAL / FAQ
+  // ==========================================
+  function closeMobileMenu() {
+    const nav = $("pg-nav-tabs");
+    const btn = $("pg-btn-mobile-menu");
+    if (nav) nav.classList.remove("mobile-open");
+    if (btn) {
+      btn.setAttribute("aria-expanded", "false");
+      btn.textContent = "☰ Menu";
+    }
+  }
+
+  function switchTab(tabName) {
+    const valid = ["katalog", "tutorial", "faq"].includes(tabName) ? tabName : "katalog";
+    document.querySelectorAll(".pg-tab-btn").forEach((b) => {
+      b.classList.toggle("active", b.getAttribute("data-tab") === valid);
+    });
+    document.querySelectorAll(".pg-page-section").forEach((sec) => {
+      sec.classList.toggle("active", sec.id === "pg-sec-" + valid);
+    });
+    closeMobileMenu();
+    if (window.location.hash !== "#" + valid) {
+      history.replaceState(null, "", "#" + valid);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function renderTutorialPage() {
+    const grid = $("pg-tut-grid");
+    grid.innerHTML = "";
+    TUTORIAL_VIDEOS.forEach((v) => {
+      const ytId = extractYoutubeId(v.youtubeUrl);
+      const card = document.createElement("div");
+      card.className = "pg-tut-card";
+
+      const ytWatchUrl = ytId ? `https://www.youtube.com/watch?v=${ytId}` : "";
+      const ytThumbUrl = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : "";
+      const mediaHtml = ytId
+        ? `<a class="pg-yt-link pg-no-ctx" href="${ytWatchUrl}" target="_blank" rel="noopener noreferrer" title="Tonton di YouTube: ${escapeHtml(v.title)}">
+             <img class="pg-yt-thumb" src="${ytThumbUrl}" alt="${escapeHtml(v.title)}" loading="lazy" draggable="false" />
+             <span class="pg-yt-play-badge">▶</span>
+             <span class="pg-yt-open-pill">Tonton di YouTube ↗</span>
+           </a>`
+        : `<div class="pg-yt-placeholder">
+             <div style="font-size:34px;">▶️</div>
+             <div style="font-weight:700;color:#E5E7EB;">Video Tutorial Segera Hadir</div>
+             <div style="font-size:12px;">(Admin: paste link YouTube di bagian <code>TUTORIAL_VIDEOS</code> dalam <code>index.html</code>)</div>
+           </div>`;
+
+      card.innerHTML = `
+        <div class="pg-yt-wrap">${mediaHtml}</div>
+        <div class="pg-tut-body">
+          <span class="pg-tut-tag">${escapeHtml(v.tag)}</span>
+          <h3 class="pg-tut-title">${escapeHtml(v.title)}</h3>
+          ${v.desc ? `<p class="pg-tut-desc">${escapeHtml(v.desc)}</p>` : ""}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderFaqAndTestimoni() {
+    const faqList = $("pg-faq-list");
+    faqList.innerHTML = "";
+    FAQ_ITEMS.forEach((item, idx) => {
+      const box = document.createElement("div");
+      box.className = "pg-faq-item" + (idx === 0 ? " open" : "");
+      box.innerHTML = `
+        <button type="button" class="pg-faq-q">
+          <span>${escapeHtml(item.q)}</span>
+          <span class="pg-faq-arrow">▼</span>
+        </button>
+        <div class="pg-faq-a">${escapeHtml(item.a)}</div>
+      `;
+      box.querySelector(".pg-faq-q").addEventListener("click", () => {
+        box.classList.toggle("open");
+      });
+      faqList.appendChild(box);
+    });
+
+    const testiList = $("pg-testi-list");
+    testiList.innerHTML = "";
+    TESTIMONIALS.forEach((t) => {
+      const card = document.createElement("div");
+      card.className = "pg-testi-card";
+      const stars = "★".repeat(Math.max(1, Math.min(5, Number(t.stars || 5))));
+      const imgHtml = t.image ? `<img class="pg-testi-img" src="${escapeHtml(t.image)}" alt="Testimoni ${escapeHtml(t.name)}" loading="lazy" />` : "";
+      card.innerHTML = `
+        <div class="pg-testi-top">
+          <span class="pg-testi-name">${escapeHtml(t.name)}</span>
+          <span class="pg-testi-stars">${stars}</span>
+        </div>
+        <div class="pg-testi-game">${escapeHtml(t.game)}</div>
+        <p class="pg-testi-text">"${escapeHtml(t.text)}"</p>
+        ${imgHtml}
+      `;
+      testiList.appendChild(card);
+    });
   }
 
   // ==========================================
@@ -894,9 +1512,12 @@
   function updateCartHeader() {
     const total = getCartTotal(cart);
     const bonusCount = cart.filter((it) => it.bonus_game).length;
-    const label = bonusCount > 0
-      ? `🛒 Keranjang (${cart.length} + ${bonusCount} Bonus) - ${formatRp(total)}`
-      : `🛒 Keranjang (${cart.length}) - ${formatRp(total)}`;
+    const isMobile = window.innerWidth <= 768;
+    const label = isMobile
+      ? `🛒 (${cart.length})`
+      : (bonusCount > 0
+        ? `🛒 Keranjang (${cart.length} + ${bonusCount} Bonus) - ${formatRp(total)}`
+        : `🛒 Keranjang (${cart.length}) - ${formatRp(total)}`);
     $("pg-btn-open-cart").textContent = label;
   }
 
@@ -1234,10 +1855,11 @@
     buyerEmail = email;
     saveCart();
 
-    const parts = email.split("@");
-    const validEmail = email.length >= 5 && parts.length === 2 && parts[1].includes(".");
-    const canGo = cart.length > 0 && validEmail;
+    const validEmail = isValidGmail(email);
+    const errEl = $("pg-buyer-email-err");
+    if (errEl) errEl.classList.toggle("show", email.length > 0 && !validEmail);
 
+    const canGo = cart.length > 0 && validEmail;
     const btn = $("pg-btn-checkout");
     btn.disabled = !canGo;
     if (canGo) {
@@ -1247,7 +1869,7 @@
     } else {
       btn.style.background = "#4B5563";
       btn.style.color = "#9CA3AF";
-      btn.textContent = cart.length > 0 ? "Checkout (Isi Email Terlebih Dahulu)" : "Checkout (Keranjang Kosong)";
+      btn.textContent = cart.length > 0 ? "Checkout (Wajib Isi @gmail.com)" : "Checkout (Keranjang Kosong)";
     }
   }
 
@@ -1296,10 +1918,11 @@
     buyerEmail = email;
     saveCart();
 
-    const parts = email.split("@");
-    const validEmail = email.length >= 5 && parts.length === 2 && parts[1].includes(".");
-    const canGo = Boolean(buyNowItem) && validEmail;
+    const validEmail = isValidGmail(email);
+    const errEl = $("pg-buynow-email-err");
+    if (errEl) errEl.classList.toggle("show", email.length > 0 && !validEmail);
 
+    const canGo = Boolean(buyNowItem) && validEmail;
     const btn = $("pg-btn-buynow-pay");
     btn.disabled = !canGo;
     if (canGo) {
@@ -1309,7 +1932,7 @@
     } else {
       btn.style.background = "#4B5563";
       btn.style.color = "#9CA3AF";
-      btn.textContent = "Bayar Sekarang (Isi Email Terlebih Dahulu)";
+      btn.textContent = "Bayar Sekarang (Wajib Isi @gmail.com)";
     }
   }
 
@@ -1701,7 +2324,22 @@
   // EVENT LISTENERS & INIT
   // ==========================================
   $("pg-brand-wrap").addEventListener("contextmenu", (e) => e.preventDefault());
+  document.querySelectorAll(".pg-tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
+  });
   $("pg-btn-chat-header").addEventListener("click", openTelegramChat);
+  $("pg-btn-chat-mobile").addEventListener("click", () => {
+    closeMobileMenu();
+    openTelegramChat();
+  });
+  $("pg-btn-mobile-menu").addEventListener("click", () => {
+    const nav = $("pg-nav-tabs");
+    const btn = $("pg-btn-mobile-menu");
+    const isOpen = nav.classList.toggle("mobile-open");
+    btn.setAttribute("aria-expanded", String(isOpen));
+    btn.textContent = isOpen ? "✕ Tutup" : "☰ Menu";
+  });
+  window.addEventListener("resize", updateCartHeader);
 
   // Tampilkan tombol "Buka di Browser" otomatis hanya jika dibuka dari GUI Launcher (pywebview)
   function enableLauncherBrowserBtn() {
@@ -1892,6 +2530,12 @@
     loadCart();
     updateCartHeader();
     buildAlphabetBar();
+    renderTutorialPage();
+    renderFaqAndTestimoni();
+    const initialHash = (window.location.hash || "").replace("#", "").toLowerCase();
+    if (initialHash === "tutorial" || initialHash === "faq") {
+      switchTab(initialHash);
+    }
 
     try {
       const resp = await fetch(CATALOG_URL);
