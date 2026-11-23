@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pawang Game Store - Katalog & Order Game</title>
+<style>
+  #pg-store-app, #pg-store-app * {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Inter, system-ui, -apple-system, sans-serif;
+  }
+  body {
+    margin: 0;
+    background: #111827;
+    color: #F3F4F6;
+  }
+  #pg-store-app {
+    background: #111827;
+    color: #F3F4F6;
+    min-height: 100vh;
+    width: 100%;
+    padding-bottom: 36px;
+  }
+  /* HEADER */
+  .pg-header {
+    background: #1F2937;
+    border-bottom: 1px solid #374151;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+  .pg-brand-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+  .pg-brand {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: #FFFFFF;
+  }
+  .pg-promo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4ADE80;
+    background: rgba(74, 222, 128, 0.12);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .pg-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .pg-btn {
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+  .pg-btn:active { transform: scale(0.98); }
+  .pg-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .pg-btn-tg {
+    background: #0088CC;
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+  .pg-btn-tg:hover { background: #006FA6; }
+  .pg-btn-cart {
+    background: #EE4D2D;
+    padding: 9px 16px;
+    font-size: 14px;
+  }
+  .pg-btn-cart:hover { background: #D73211; }
+
+  /* CONTROLS */
+  .pg-container {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 14px 18px 0;
+  }
+  .pg-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .pg-cat-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pg-cat-btn {
+    background: #374151;
+    color: #E5E7EB;
+    padding: 7px 14px;
+    font-size: 13px;
+    border-radius: 7px;
+  }
+  .pg-cat-btn:hover { background: #4B5563; }
+  .pg-cat-btn.active {
+    background: #3B82F6;
+    color: #FFFFFF;
+  }
+  .pg-tools-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .pg-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #D1D5DB;
+  }
+  .pg-select, .pg-input {
+    background: #1F2937;
+    color: #FFFFFF;
+    border: 1px solid #4B5563;
+    border-radius: 7px;
+    padding: 7px 11px;
+    font-size: 13px;
+    outline: none;
+  }
+  .pg-select:focus, .pg-input:focus {
+    border-color: #3B82F6;
+  }
+  .pg-search-input {
+    width: 220px;
+  }
+
+  /* ALPHABET BAR */
+  .pg-alpha-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+  .pg-alpha-btn {
+    background: #1F2937;
+    color: #D1D5DB;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    min-width: 28px;
+  }
+  .pg-alpha-btn:hover { background: #2563EB; color: #FFFFFF; }
+  .pg-alpha-btn.active {
+    background: #3B82F6;
+    border-color: #3B82F6;
+    color: #FFFFFF;
+  }
+
+  /* GRID 5 KOLOM */
+  .pg-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 1100px) {
+    .pg-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 840px) {
+    .pg-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .pg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .pg-search-input { width: 160px; }
+  }
+
+  .pg-card {
+    background: #1F2937;
+    border: 1px solid #2D3748;
+    border-radius: 10px;
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .pg-card:hover {
+    border-color: #3B82F6;
+    transform: translateY(-2px);
+  }
+  .pg-cover-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #111827;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .pg-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+  .pg-no-ctx {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .pg-card-title {
+    margin: 7px 2px 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #F9FAFB;
+    text-align: center;
+    line-height: 1.3;
+    height: 34px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .pg-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .pg-btn-preview {
+    background: #374151;
+    font-size: 12px;
+    padding: 7px 6px;
+  }
+  .pg-btn-preview:hover { background: #4B5563; }
+  .pg-btn-add {
+    background: #2563EB;
+    font-size: 12px;
+    padding: 7px 6px;
+  }
+  .pg-btn-add:hover { background: #1D4ED8; }
+  .pg-btn-add.in-cart {
+    background: #10B981;
+  }
+  .pg-btn-add.in-cart:hover { background: #059669; }
+
+  .pg-status-bar {
+    text-align: center;
+    margin-top: 18px;
+    color: #9CA3AF;
+    font-size: 13px;
+  }
+  .pg-load-more-btn {
+    margin-top: 10px;
+    background: #374151;
+    padding: 9px 20px;
+    font-size: 13px;
+  }
+  .pg-load-more-btn:hover { background: #4B5563; }
+
+  /* MODALS */
+  .pg-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 14px;
+  }
+  .pg-modal-backdrop.open {
+    display: flex;
+  }
+  .pg-modal {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 14px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  }
+  .pg-modal-preview { max-width: 960px; }
+  .pg-modal-cart { max-width: 680px; }
+  .pg-modal-bonus { max-width: 560px; }
+  .pg-modal-pay { max-width: 500px; }
+
+  .pg-modal-header {
+    padding: 14px 18px;
+    background: #1F2937;
+    border-bottom: 1px solid #374151;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .pg-modal-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #FFFFFF;
+  }
+  .pg-close-btn {
+    background: #374151;
+    color: #E5E7EB;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .pg-close-btn:hover { background: #EF4444; color: #FFFFFF; }
+  .pg-modal-body {
+    padding: 16px 18px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .pg-modal-footer {
+    padding: 12px 18px;
+    background: #1F2937;
+    border-top: 1px solid #374151;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* PREVIEW STAGE */
+  .pg-preview-stage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 340px;
+    background: #0B1120;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .pg-preview-img-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    max-height: 58vh;
+    overflow: hidden;
+    position: relative;
+    cursor: zoom-in;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .pg-preview-img-box.zoomed {
+    cursor: grab;
+  }
+  .pg-preview-img-box.dragging {
+    cursor: grabbing;
+  }
+  .pg-preview-img-box img {
+    max-width: 100%;
+    max-height: 56vh;
+    object-fit: contain;
+    border-radius: 6px;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    transition: transform 0.12s ease-out;
+    transform-origin: center center;
+  }
+  .pg-preview-img-box.dragging img {
+    transition: none;
+  }
+  .pg-zoom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .pg-zoom-btn {
+    background: #374151;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .pg-zoom-btn:hover { background: #4B5563; }
+  .pg-zoom-level {
+    font-size: 12px;
+    font-weight: 700;
+    color: #93C5FD;
+    min-width: 52px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .pg-nav-btn {
+    background: #374151;
+    padding: 12px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .pg-nav-btn:hover { background: #4B5563; }
+  .pg-spec-banner {
+    margin-top: 12px;
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    color: #FDE047;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  /* CART & BONUS LIST */
+  .pg-list-row {
+    background: #1F2937;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .pg-list-info {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+  }
+  .pg-list-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #F9FAFB;
+  }
+  .pg-list-bonus {
+    font-size: 12px;
+    color: #4ADE80;
+    margin-top: 3px;
+  }
+  .pg-list-btns {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .pg-btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+  .pg-btn-danger { background: #EF4444; }
+  .pg-btn-danger:hover { background: #DC2626; }
+  .pg-btn-success { background: #10B981; }
+  .pg-btn-success:hover { background: #059669; }
+  .pg-btn-primary { background: #2563EB; }
+  .pg-btn-primary:hover { background: #1D4ED8; }
+  .pg-btn-warn { background: #D97706; }
+  .pg-btn-warn:hover { background: #B45309; }
+  .pg-btn-yt { background: #DC2626; }
+  .pg-btn-yt:hover { background: #B91C1C; }
+
+  .pg-email-box {
+    margin-top: 12px;
+  }
+  .pg-email-box input {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  /* PAYMENT BOX */
+  .pg-pay-summary {
+    background: #1F2937;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .pg-pay-amount {
+    font-size: 22px;
+    font-weight: 800;
+    color: #4ADE80;
+  }
+  .pg-qr-box {
+    background: #FFFFFF;
+    width: 248px;
+    height: 248px;
+    margin: 0 auto 10px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+  .pg-qr-box img {
+    width: 230px;
+    height: 230px;
+    display: block;
+  }
+  .pg-pay-status {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FDE047;
+    margin-bottom: 12px;
+  }
+
+  /* TOAST */
+  .pg-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1F2937;
+    color: #FFFFFF;
+    border: 1px solid #4ADE80;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 10000;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .pg-toast.show { display: block; }
+</style>
+</head>
+<body>
+<div id="pg-store-app">
+  <!-- HEADER -->
+  <header class="pg-header">
+    <div class="pg-brand-wrap">
+      <div class="pg-brand">PAWANG GAME STORE</div>
+      <div class="pg-promo" id="pg-promo-text">Semua Game Rp 10.000 / Judul (Beli 1 Gratis 1)</div>
+    </div>
+    <div class="pg-header-actions">
+      <button type="button" class="pg-btn pg-btn-tg" id="pg-btn-chat-header">💬 Chat Aku di Telegram</button>
+      <button type="button" class="pg-btn pg-btn-cart" id="pg-btn-open-cart">🛒 Keranjang (0) - Rp 0</button>
+    </div>
+  </header>
+
+  <main class="pg-container">
+    <!-- BARIS 1: KATEGORI, SORTIR, SEARCH -->
+    <div class="pg-filter-bar">
+      <div class="pg-cat-group" id="pg-cat-group"></div>
+      <div class="pg-tools-group">
+        <span class="pg-label">Urutkan:</span>
+        <select class="pg-select" id="pg-sort-select">
+          <option value="random">Acak (Random)</option>
+          <option value="az">Abjad (A - Z)</option>
+          <option value="za">Abjad (Z - A)</option>
+        </select>
+        <span class="pg-label" style="margin-left:6px;">Search</span>
+        <input type="text" class="pg-input pg-search-input" id="pg-search-input" placeholder="Cari judul game..." />
+      </div>
+    </div>
+
+    <!-- BARIS 2: FILTER ABJAD -->
+    <div class="pg-alpha-bar" id="pg-alpha-bar">
+      <span class="pg-label" style="margin-right:4px;color:#9CA3AF;font-size:12px;">Abjad:</span>
+    </div>
+
+    <!-- GRID 5 KOLOM -->
+    <div class="pg-grid" id="pg-grid"></div>
+
+    <!-- STATUS & LOAD MORE -->
+    <div class="pg-status-bar">
+      <div id="pg-status-text">Memuat katalog game...</div>
+      <button type="button" class="pg-btn pg-load-more-btn" id="pg-load-more-btn" style="display:none;">Muat 30 Game Lagi</button>
+    </div>
+    <div id="pg-scroll-sentinel" style="height:1px;"></div>
+  </main>
+
+  <!-- MODAL PREVIEW -->
+  <div class="pg-modal-backdrop" id="pg-modal-preview">
+    <div class="pg-modal pg-modal-preview">
+      <div class="pg-modal-header">
+        <div class="pg-modal-title" id="pg-prev-title">Preview Game</div>
+        <button type="button" class="pg-close-btn" id="pg-prev-close">&times;</button>
+      </div>
+      <div class="pg-modal-body">
+        <div class="pg-preview-stage">
+          <button type="button" class="pg-btn pg-nav-btn" id="pg-prev-left">◀ Prev</button>
+          <div class="pg-preview-img-box pg-no-ctx" id="pg-prev-img-box" title="Scroll atau klik untuk zoom">Loading Preview...</div>
+          <button type="button" class="pg-btn pg-nav-btn" id="pg-prev-right">Next ▶</button>
+        </div>
+        <div class="pg-zoom-bar">
+          <button type="button" class="pg-zoom-btn" id="pg-zoom-out">− Zoom Out</button>
+          <span class="pg-zoom-level" id="pg-zoom-level" title="Klik untuk reset ke 100%">100%</span>
+          <button type="button" class="pg-zoom-btn" id="pg-zoom-in">+ Zoom In</button>
+          <span style="font-size:11px;color:#9CA3AF;">(Bisa scroll / klik gambar &amp; geser saat di-zoom)</span>
+        </div>
+        <div class="pg-spec-banner" id="pg-prev-spec-banner" style="display:none;"></div>
+      </div>
+      <div class="pg-modal-footer">
+        <button type="button" class="pg-btn pg-btn-yt" style="padding:9px 14px;font-size:13px;" id="pg-prev-yt">▶ Lihat di YouTube</button>
+        <button type="button" class="pg-btn pg-btn-warn" style="padding:9px 14px;font-size:13px;" id="pg-prev-sysreq">💻 Check System Requirements</button>
+        <button type="button" class="pg-btn pg-btn-primary" style="padding:9px 16px;font-size:13px;flex:1;" id="pg-prev-add-cart">+ Masukkan Keranjang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KERANJANG -->
+  <div class="pg-modal-backdrop" id="pg-modal-cart">
+    <div class="pg-modal pg-modal-cart">
+      <div class="pg-modal-header">
+        <div class="pg-modal-title">Keranjang Belanja (Promo Beli 1 Gratis 1)</div>
+        <button type="button" class="pg-close-btn" id="pg-cart-close">&times;</button>
+      </div>
+      <div class="pg-modal-body">
+        <div style="font-size:12px;color:#4ADE80;margin-bottom:10px;font-weight:600;">
+          Promo Beli 1 Gratis 1: Klik "Tambah Bonus Game" di sebelah kanan setiap game!
+        </div>
+        <div id="pg-cart-list"></div>
+        <div id="pg-cart-total" style="text-align:center;font-size:16px;font-weight:800;color:#4ADE80;margin:14px 0 8px;"></div>
+        <div class="pg-email-box">
+          <label for="pg-buyer-email" class="pg-label">Email Pengiriman Game (Wajib diisi):</label>
+          <input type="email" id="pg-buyer-email" class="pg-input" placeholder="Masukkan alamat email aktif kamu (contoh: nama@gmail.com)..." />
+        </div>
+      </div>
+      <div class="pg-modal-footer">
+        <button type="button" class="pg-btn" id="pg-btn-checkout" style="width:100%;padding:12px;font-size:14px;" disabled>
+          Checkout (Isi Email Terlebih Dahulu)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PILIH BONUS GAME -->
+  <div class="pg-modal-backdrop" id="pg-modal-bonus">
+    <div class="pg-modal pg-modal-bonus">
+      <div class="pg-modal-header">
+        <div class="pg-modal-title" id="pg-bonus-title">Pilih 1 Bonus Game Gratis</div>
+        <button type="button" class="pg-close-btn" id="pg-bonus-close">&times;</button>
+      </div>
+      <div class="pg-modal-body" id="pg-bonus-scroll-body">
+        <input type="text" class="pg-input" id="pg-bonus-search" placeholder="Cari nama game bonus..." style="width:100%;margin-bottom:10px;" />
+        <div id="pg-bonus-list"></div>
+        <div id="pg-bonus-info" style="text-align:center;font-size:12px;color:#9CA3AF;margin-top:8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PEMBAYARAN OTOMATIS -->
+  <div class="pg-modal-backdrop" id="pg-modal-pay">
+    <div class="pg-modal pg-modal-pay">
+      <div class="pg-modal-header">
+        <div class="pg-modal-title" id="pg-pay-modal-title">Pembayaran - Pawang Game</div>
+        <button type="button" class="pg-close-btn" id="pg-pay-close">&times;</button>
+      </div>
+      <div class="pg-modal-body" id="pg-pay-body"></div>
+    </div>
+  </div>
+
+  <input type="file" id="pg-proof-file-input" accept="image/*" style="display:none;" />
+  <div class="pg-toast" id="pg-toast"></div>
+</div>
+
+<script>
+(function () {
+  // ==========================================
+  // PENGATURAN TOKO & SERVER (EDIT DI SINI)
+  // ==========================================
+  const HARGA_SATUAN = 10000;
+  const API_BASE_URL = "https://pawanggame-api.asm-bobby12.workers.dev";
+  const TELEGRAM_USERNAME = "pawanggame"; // Ganti dengan username Telegram pribadi kamu (tanpa @)
+
+  const GITHUB_USERNAME = "pawanggame";
+  const REPO_NAME = "pawang-katalog";
+  const BRANCH = "main";
+  const BASE_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/refs/heads/${BRANCH}/`;
+  const CATALOG_URL = BASE_RAW_URL + "katalog.json";
+
+  const STORAGE_KEY = "pawanggame_cart_v1";
+  const GRID_BATCH = 30;
+  const BONUS_BATCH = 10;
+
+  // ==========================================
+  // STATE APLIKASI
+  // ==========================================
+  let allGames = [];
+  let shuffledGames = [];
+  let filteredGames = [];
+  let gridLoaded = 0;
+
+  let activeCategory = "Semua";
+  let activeLetter = "Semua";
+  let sortMode = "random";
+  let searchQuery = "";
+
+  let cart = [];
+  let buyerEmail = "";
+
+  let previewGame = null;
+  let previewIndex = 0;
+  let previewZoom = 1;
+  let panX = 0;
+  let panY = 0;
+  let isDraggingZoom = false;
+  let dragMoved = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+
+  let bonusTargetCartIdx = -1;
+  let bonusPool = [];
+  let bonusFiltered = [];
+  let bonusLoaded = 0;
+
+  let pollTimer = null;
+  let activeOrder = null;
+
+  // ==========================================
+  // UTILITAS
+  // ==========================================
+  const $ = (id) => document.getElementById(id);
+
+  function formatRp(num) {
+    return "Rp " + Number(num || 0).toLocaleString("id-ID");
+  }
+
+  function showToast(msg) {
+    const t = $("pg-toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(t._tid);
+    t._tid = setTimeout(() => t.classList.remove("show"), 3200);
+  }
+
+  function encodeRelPath(rel) {
+    if (!rel) return "";
+    return BASE_RAW_URL + rel.split("/").map(encodeURIComponent).join("/");
+  }
+
+  function shuffleArray(arr) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function saveCart() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ email: buyerEmail, items: cart }));
+    } catch (e) {}
+  }
+
+  function loadCart() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data && Array.isArray(data.items)) {
+        cart = data.items;
+        buyerEmail = data.email || "";
+      }
+    } catch (e) {}
+  }
+
+  function openTelegramChat() {
+    const u = TELEGRAM_USERNAME.replace(/^@/, "").trim();
+    window.open(`https://t.me/${u}`, "_blank", "noopener");
+  }
+
+  // ==========================================
+  // HEADER & KERANJANG
+  // ==========================================
+  function updateCartHeader() {
+    const total = cart.length * HARGA_SATUAN;
+    const bonusCount = cart.filter((it) => it.bonus_game).length;
+    const label = bonusCount > 0
+      ? `🛒 Keranjang (${cart.length} + ${bonusCount} Bonus) - ${formatRp(total)}`
+      : `🛒 Keranjang (${cart.length}) - ${formatRp(total)}`;
+    $("pg-btn-open-cart").textContent = label;
+  }
+
+  function refreshCardButtons() {
+    const cartIds = new Set(cart.map((c) => c.id));
+    document.querySelectorAll(".pg-btn-add[data-gid]").forEach((btn) => {
+      const inCart = cartIds.has(btn.getAttribute("data-gid"));
+      btn.textContent = inCart ? "✓ Keranjang" : "+ Keranjang";
+      btn.classList.toggle("in-cart", inCart);
+    });
+  }
+
+  function toggleCart(game, onlyAdd = false) {
+    const idx = cart.findIndex((c) => String(c.id) === String(game.id));
+    if (idx === -1) {
+      cart.push({ ...game, bonus_game: null });
+      showToast(`"${game.title}" ditambahkan ke keranjang`);
+    } else if (!onlyAdd) {
+      cart.splice(idx, 1);
+      showToast(`"${game.title}" dihapus dari keranjang`);
+    }
+    saveCart();
+    updateCartHeader();
+    refreshCardButtons();
+  }
+
+  // ==========================================
+  // RENDER FILTER & GRID 5 KOLOM (LAZY LOAD 30)
+  // ==========================================
+  function buildCategories() {
+    const cats = ["Semua", ...Array.from(new Set(allGames.map((g) => g.category))).sort()];
+    const group = $("pg-cat-group");
+    group.innerHTML = "";
+    cats.forEach((cat) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pg-btn pg-cat-btn" + (cat === activeCategory ? " active" : "");
+      btn.textContent = cat;
+      btn.addEventListener("click", () => {
+        activeCategory = cat;
+        buildCategories();
+        resetAndRenderGrid();
+      });
+      group.appendChild(btn);
+    });
+  }
+
+  function buildAlphabetBar() {
+    const bar = $("pg-alpha-bar");
+    bar.innerHTML = '<span class="pg-label" style="margin-right:4px;color:#9CA3AF;font-size:12px;">Abjad:</span>';
+    const letters = ["Semua", "#"];
+    for (let c = 65; c <= 90; c++) letters.push(String.fromCharCode(c));
+
+    letters.forEach((ltr) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pg-alpha-btn" + (ltr === activeLetter ? " active" : "");
+      btn.textContent = ltr;
+      btn.addEventListener("click", () => {
+        activeLetter = ltr;
+        buildAlphabetBar();
+        resetAndRenderGrid();
+      });
+      bar.appendChild(btn);
+    });
+  }
+
+  function matchLetter(title) {
+    if (activeLetter === "Semua") return true;
+    const first = (title || "").trim().charAt(0).toUpperCase();
+    if (!first) return false;
+    if (activeLetter === "#") return !(first >= "A" && first <= "Z");
+    return first === activeLetter;
+  }
+
+  function resetAndRenderGrid() {
+    const q = searchQuery.toLowerCase().trim();
+    const base = sortMode === "random" ? shuffledGames : allGames;
+
+    filteredGames = base.filter((g) => {
+      const okCat = activeCategory === "Semua" || g.category === activeCategory;
+      const okLtr = matchLetter(g.title);
+      const okQ = !q || (g.title || "").toLowerCase().includes(q);
+      return okCat && okLtr && okQ;
+    });
+
+    if (sortMode === "az") {
+      filteredGames.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+    } else if (sortMode === "za") {
+      filteredGames.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+    }
+
+    $("pg-grid").innerHTML = "";
+    gridLoaded = 0;
+
+    if (filteredGames.length === 0) {
+      $("pg-status-text").textContent = "Tidak ada game yang cocok dengan pencarian / filter.";
+      $("pg-load-more-btn").style.display = "none";
+      return;
+    }
+
+    loadNextGridBatch();
+  }
+
+  function loadNextGridBatch() {
+    const total = filteredGames.length;
+    if (gridLoaded >= total) return;
+
+    const end = Math.min(gridLoaded + GRID_BATCH, total);
+    const grid = $("pg-grid");
+    const cartIds = new Set(cart.map((c) => String(c.id)));
+    const frag = document.createDocumentFragment();
+
+    for (let i = gridLoaded; i < end; i++) {
+      const game = filteredGames[i];
+      const card = document.createElement("div");
+      card.className = "pg-card";
+
+      const coverWrap = document.createElement("div");
+      coverWrap.className = "pg-cover-wrap pg-no-ctx";
+      coverWrap.addEventListener("contextmenu", (e) => e.preventDefault());
+      coverWrap.addEventListener("dragstart", (e) => e.preventDefault());
+      coverWrap.addEventListener("click", () => openPreviewModal(game));
+
+      const img = document.createElement("img");
+      img.className = "pg-cover-img";
+      img.loading = "lazy";
+      img.draggable = false;
+      img.alt = game.title;
+      img.src = encodeRelPath(game.cover);
+      coverWrap.appendChild(img);
+
+      const title = document.createElement("div");
+      title.className = "pg-card-title";
+      title.textContent = game.title;
+      title.title = game.title;
+
+      const actions = document.createElement("div");
+      actions.className = "pg-card-actions";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.className = "pg-btn pg-btn-preview";
+      prevBtn.textContent = "Preview";
+      prevBtn.addEventListener("click", () => openPreviewModal(game));
+
+      const inCart = cartIds.has(String(game.id));
+      const addBtn = document.createElement("button");
+      addBtn.type = "button";
+      addBtn.className = "pg-btn pg-btn-add" + (inCart ? " in-cart" : "");
+      addBtn.setAttribute("data-gid", String(game.id));
+      addBtn.textContent = inCart ? "✓ Keranjang" : "+ Keranjang";
+      addBtn.addEventListener("click", () => toggleCart(game));
+
+      actions.appendChild(prevBtn);
+      actions.appendChild(addBtn);
+
+      card.appendChild(coverWrap);
+      card.appendChild(title);
+      card.appendChild(actions);
+      frag.appendChild(card);
+    }
+
+    grid.appendChild(frag);
+    gridLoaded = end;
+
+    const rem = total - gridLoaded;
+    if (rem <= 0) {
+      $("pg-status-text").textContent = `Menampilkan semua ${total} game`;
+      $("pg-load-more-btn").style.display = "none";
+    } else {
+      $("pg-status-text").textContent = `Menampilkan ${gridLoaded} dari ${total} game — Scroll ke bawah untuk memuat ${Math.min(GRID_BATCH, rem)} game lagi`;
+      $("pg-load-more-btn").style.display = "inline-flex";
+      $("pg-load-more-btn").textContent = `Muat ${Math.min(GRID_BATCH, rem)} Game Lagi`;
+    }
+  }
+
+  // ==========================================
+  // MODAL PREVIEW
+  // ==========================================
+  function openPreviewModal(game) {
+    previewGame = game;
+    previewIndex = 0;
+
+    $("pg-prev-title").textContent = `${game.title} (${game.category})`;
+    const previews = game.previews || [];
+    const hasMulti = previews.length > 1;
+    $("pg-prev-left").style.display = hasMulti ? "inline-flex" : "none";
+    $("pg-prev-right").style.display = hasMulti ? "inline-flex" : "none";
+
+    const catLower = (game.category || "").trim().toLowerCase();
+    const isPs2 = catLower.includes("ps2");
+    const isPs1 = catLower.includes("ps1");
+
+    const specBanner = $("pg-prev-spec-banner");
+    const sysReqBtn = $("pg-prev-sysreq");
+    if (isPs2 || isPs1) {
+      specBanner.style.display = "block";
+      specBanner.innerHTML = isPs2
+        ? "Minimal Spesifikasi (PS2):<br>• processor i3 gen 6 &nbsp;|&nbsp; • ram 4gb lebih &nbsp;|&nbsp; • windows 10 (minimal tahun 2018 bulan 9)"
+        : "Minimal Spesifikasi (PS1):<br>• processor i3 gen 2 &nbsp;|&nbsp; • ram 2gb atau lebih &nbsp;|&nbsp; • windows 10 (minimal tahun 2018 bulan 9)";
+      sysReqBtn.style.display = "none";
+    } else {
+      specBanner.style.display = "none";
+      sysReqBtn.style.display = "inline-flex";
+    }
+
+    const inCart = cart.some((c) => String(c.id) === String(game.id));
+    const addBtn = $("pg-prev-add-cart");
+    addBtn.textContent = inCart ? "✓ Sudah di Keranjang" : `+ Masukkan Keranjang (${formatRp(HARGA_SATUAN)})`;
+    addBtn.className = "pg-btn " + (inCart ? "pg-btn-success" : "pg-btn-primary");
+
+    renderPreviewImage();
+    $("pg-modal-preview").classList.add("open");
+  }
+
+  function applyPreviewTransform() {
+    const box = $("pg-prev-img-box");
+    const img = box.querySelector("img");
+    $("pg-zoom-level").textContent = Math.round(previewZoom * 100) + "%";
+    box.classList.toggle("zoomed", previewZoom > 1);
+    if (previewZoom <= 1) {
+      panX = 0;
+      panY = 0;
+    }
+    if (img) {
+      img.style.transform = `translate(${panX}px, ${panY}px) scale(${previewZoom})`;
+    }
+  }
+
+  function resetPreviewZoom() {
+    previewZoom = 1;
+    panX = 0;
+    panY = 0;
+    applyPreviewTransform();
+  }
+
+  function setPreviewZoom(nextZoom) {
+    previewZoom = Math.min(3, Math.max(1, Number(nextZoom.toFixed(2))));
+    applyPreviewTransform();
+  }
+
+  function renderPreviewImage() {
+    resetPreviewZoom();
+    const box = $("pg-prev-img-box");
+    const previews = (previewGame && previewGame.previews) || [];
+    if (previews.length === 0) {
+      box.textContent = "Belum ada gambar preview untuk game ini.";
+      return;
+    }
+    const url = encodeRelPath(previews[previewIndex]);
+    box.innerHTML = `<div style="color:#9CA3AF;font-size:14px;font-weight:600;">Loading Preview (${previewIndex + 1}/${previews.length})...</div>`;
+    const img = new Image();
+    img.draggable = false;
+    img.onload = () => {
+      box.innerHTML = "";
+      box.appendChild(img);
+      applyPreviewTransform();
+    };
+    img.onerror = () => {
+      box.textContent = "Gagal memuat gambar preview.";
+    };
+    img.src = url;
+  }
+
+  // ==========================================
+  // MODAL KERANJANG & BONUS (BELI 1 GRATIS 1)
+  // ==========================================
+  function renderCartModal() {
+    const list = $("pg-cart-list");
+    list.innerHTML = "";
+
+    if (cart.length === 0) {
+      list.innerHTML = '<div style="text-align:center;color:#9CA3AF;padding:36px 0;">Keranjang masih kosong.</div>';
+    } else {
+      cart.forEach((item, idx) => {
+        const row = document.createElement("div");
+        row.className = "pg-list-row";
+
+        const info = document.createElement("div");
+        info.className = "pg-list-info";
+        info.innerHTML = `<div class="pg-list-title">${idx + 1}. ${escapeHtml(item.title)} (${escapeHtml(item.category)})</div>` +
+          (item.bonus_game ? `<div class="pg-list-bonus">+ Bonus Gratis: ${escapeHtml(item.bonus_game.title)} (${escapeHtml(item.bonus_game.category)})</div>` : "");
+
+        const btns = document.createElement("div");
+        btns.className = "pg-list-btns";
+
+        const bBtn = document.createElement("button");
+        bBtn.type = "button";
+        bBtn.className = "pg-btn pg-btn-sm " + (item.bonus_game ? "pg-btn-success" : "pg-btn-primary");
+        bBtn.textContent = item.bonus_game ? "Ganti Bonus Game" : "Tambah Bonus Game";
+        bBtn.addEventListener("click", () => openBonusModal(idx));
+
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "pg-btn pg-btn-sm pg-btn-danger";
+        delBtn.textContent = "Hapus";
+        delBtn.addEventListener("click", () => {
+          cart.splice(idx, 1);
+          saveCart();
+          updateCartHeader();
+          refreshCardButtons();
+          renderCartModal();
+        });
+
+        btns.appendChild(bBtn);
+        btns.appendChild(delBtn);
+        row.appendChild(info);
+        row.appendChild(btns);
+        list.appendChild(row);
+      });
+    }
+
+    const total = cart.length * HARGA_SATUAN;
+    const bonusCount = cart.filter((it) => it.bonus_game).length;
+    $("pg-cart-total").textContent = `Total: ${cart.length} Game (+ ${bonusCount} Bonus)  |  ${formatRp(total)}`;
+    $("pg-buyer-email").value = buyerEmail;
+    validateCheckoutBtn();
+  }
+
+  function validateCheckoutBtn() {
+    const email = ($("pg-buyer-email").value || "").trim();
+    buyerEmail = email;
+    saveCart();
+
+    const parts = email.split("@");
+    const validEmail = email.length >= 5 && parts.length === 2 && parts[1].includes(".");
+    const canGo = cart.length > 0 && validEmail;
+
+    const btn = $("pg-btn-checkout");
+    btn.disabled = !canGo;
+    if (canGo) {
+      btn.style.background = "#25D366";
+      btn.style.color = "#FFFFFF";
+      btn.textContent = "Checkout & Bayar Sekarang";
+    } else {
+      btn.style.background = "#4B5563";
+      btn.style.color = "#9CA3AF";
+      btn.textContent = cart.length > 0 ? "Checkout (Isi Email Terlebih Dahulu)" : "Checkout (Keranjang Kosong)";
+    }
+  }
+
+  function openBonusModal(cartIdx) {
+    bonusTargetCartIdx = cartIdx;
+    const target = cart[cartIdx];
+    $("pg-bonus-title").textContent = `Pilih Bonus untuk: ${target ? target.title : "Game"}`;
+    $("pg-bonus-search").value = "";
+    bonusPool = shuffleArray(allGames);
+    resetBonusList();
+    $("pg-modal-bonus").classList.add("open");
+  }
+
+  function resetBonusList() {
+    const q = ($("pg-bonus-search").value || "").toLowerCase().trim();
+    bonusFiltered = q
+      ? bonusPool.filter((g) => (g.title || "").toLowerCase().includes(q) || (g.category || "").toLowerCase().includes(q))
+      : bonusPool.slice();
+    $("pg-bonus-list").innerHTML = "";
+    bonusLoaded = 0;
+
+    if (bonusFiltered.length === 0) {
+      $("pg-bonus-list").innerHTML = '<div style="text-align:center;color:#9CA3AF;padding:28px 0;">Game tidak ditemukan.</div>';
+      $("pg-bonus-info").textContent = "0 game ditemukan.";
+      return;
+    }
+    loadNextBonusBatch();
+  }
+
+  function loadNextBonusBatch() {
+    const total = bonusFiltered.length;
+    if (bonusLoaded >= total) return;
+    const end = Math.min(bonusLoaded + BONUS_BATCH, total);
+    const list = $("pg-bonus-list");
+    const frag = document.createDocumentFragment();
+
+    for (let i = bonusLoaded; i < end; i++) {
+      const g = bonusFiltered[i];
+      const row = document.createElement("div");
+      row.className = "pg-list-row";
+
+      const info = document.createElement("div");
+      info.className = "pg-list-info";
+      info.innerHTML = `<div class="pg-list-title">${i + 1}. ${escapeHtml(g.title)} (${escapeHtml(g.category)})</div>`;
+
+      const addBtn = document.createElement("button");
+      addBtn.type = "button";
+      addBtn.className = "pg-btn pg-btn-sm pg-btn-success";
+      addBtn.textContent = "Tambah";
+      addBtn.addEventListener("click", () => {
+        if (cart[bonusTargetCartIdx]) {
+          cart[bonusTargetCartIdx].bonus_game = { id: g.id, title: g.title, category: g.category };
+          saveCart();
+          updateCartHeader();
+          renderCartModal();
+        }
+        $("pg-modal-bonus").classList.remove("open");
+      });
+
+      row.appendChild(info);
+      row.appendChild(addBtn);
+      frag.appendChild(row);
+    }
+
+    list.appendChild(frag);
+    bonusLoaded = end;
+    $("pg-bonus-info").textContent = bonusLoaded >= total
+      ? `Menampilkan semua ${total} game.`
+      : `Menampilkan ${bonusLoaded} dari ${total} game (Scroll ke bawah untuk +10 lagi)`;
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  // ==========================================
+  // MODAL PEMBAYARAN OTOMATIS + INVOICE JPG/PDF
+  // ==========================================
+  function stopPaymentPolling() {
+    if (pollTimer) {
+      clearInterval(pollTimer);
+      pollTimer = null;
+    }
+  }
+
+  async function startCheckoutPayment() {
+    stopPaymentPolling();
+    const cartSnapshot = cart.map((it) => ({ ...it }));
+    const emailSnapshot = buyerEmail;
+    const estAmount = cartSnapshot.length * HARGA_SATUAN;
+
+    activeOrder = {
+      invoice_number: null,
+      amount: estAmount,
+      payment_url: null,
+      email: emailSnapshot,
+      items: cartSnapshot,
+      paid: false
+    };
+
+    const body = $("pg-pay-body");
+    $("pg-pay-modal-title").textContent = "Pembayaran - Pawang Game";
+    body.innerHTML = `
+      <div style="text-align:center;font-size:12px;color:#9CA3AF;margin-bottom:10px;">
+        Halaman pembayaran akan terbuka otomatis di tab baru.<br>Jangan tutup jendela ini agar status LUNAS terdeteksi otomatis.
+      </div>
+      <div class="pg-pay-summary">
+        <div class="pg-pay-amount" id="pg-pay-amt">${formatRp(estAmount)}</div>
+        <div id="pg-pay-sub" style="font-size:12px;color:#D1D5DB;margin-top:3px;">${cartSnapshot.length} Game</div>
+        <div style="font-size:12px;color:#93C5FD;font-weight:700;margin-top:3px;">Kirim ke: ${escapeHtml(emailSnapshot)}</div>
+      </div>
+      <div class="pg-qr-box" id="pg-qr-box">
+        <div style="color:#111827;font-weight:700;font-size:13px;">Menyiapkan pembayaran...</div>
+      </div>
+      <div class="pg-pay-status" id="pg-pay-status">⏳ Menyiapkan transaksi pembayaran...</div>
+      <button type="button" class="pg-btn pg-btn-primary" id="pg-open-pay-url" style="width:100%;padding:10px;font-size:13px;margin-bottom:8px;" disabled>
+        🌐 Buka Halaman Pembayaran di Browser
+      </button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button type="button" class="pg-btn" id="pg-upload-proof-btn" style="background:#374151;padding:9px;font-size:12px;">📎 Upload Bukti Bayar</button>
+        <button type="button" class="pg-btn pg-btn-tg" id="pg-pay-tg-btn" style="padding:9px;font-size:12px;">💬 Chat Aku di Telegram</button>
+      </div>
+    `;
+
+    $("pg-pay-tg-btn").addEventListener("click", openTelegramChat);
+    $("pg-upload-proof-btn").addEventListener("click", () => {
+      if (!activeOrder || !activeOrder.invoice_number) {
+        showToast("Tunggu sebentar, transaksi masih disiapkan.");
+        return;
+      }
+      $("pg-proof-file-input").click();
+    });
+
+    $("pg-modal-pay").classList.add("open");
+
+    try {
+      const resp = await fetch(API_BASE_URL.replace(/\/$/, "") + "/create-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailSnapshot, items: cartSnapshot })
+      });
+      const data = await resp.json();
+      if (!resp.ok || data.error) {
+        throw new Error(data.error || "Gagal membuat transaksi pembayaran.");
+      }
+
+      activeOrder.invoice_number = data.invoice_number;
+      activeOrder.amount = Number(data.amount || estAmount);
+      activeOrder.payment_url = data.payment_url;
+
+      $("pg-pay-modal-title").textContent = `Pembayaran - ${activeOrder.invoice_number}`;
+      $("pg-pay-amt").textContent = formatRp(activeOrder.amount);
+      const bonusCount = cartSnapshot.filter((g) => g.bonus_game).length;
+      $("pg-pay-sub").textContent = `Order ${activeOrder.invoice_number} • ${cartSnapshot.length} Game` + (bonusCount > 0 ? ` (+ ${bonusCount} Bonus)` : "");
+
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=230x230&margin=10&data=${encodeURIComponent(activeOrder.payment_url)}`;
+      $("pg-qr-box").innerHTML = `<img src="${qrUrl}" alt="QR Pembayaran" />`;
+
+      const openBtn = $("pg-open-pay-url");
+      openBtn.disabled = false;
+      openBtn.addEventListener("click", () => window.open(activeOrder.payment_url, "_blank", "noopener"));
+
+      window.open(activeOrder.payment_url, "_blank", "noopener");
+      $("pg-pay-status").textContent = "⏳ Menunggu pembayaran... (Otomatis cek status tiap 3 detik)";
+
+      pollTimer = setInterval(async () => {
+        if (!activeOrder || activeOrder.paid) return;
+        try {
+          const stResp = await fetch(API_BASE_URL.replace(/\/$/, "") + "/check-status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              invoice_number: activeOrder.invoice_number,
+              email: activeOrder.email,
+              items: activeOrder.items
+            })
+          });
+          const stData = await stResp.json();
+          const st = String(stData.status || "PENDING").toUpperCase();
+          if (st === "SUCCESS") {
+            activeOrder.paid = true;
+            stopPaymentPolling();
+            renderPaidSuccessScreen();
+          } else if (st === "EXPIRED" || st === "FAILED") {
+            stopPaymentPolling();
+            const el = $("pg-pay-status");
+            if (el) {
+              el.style.color = "#F87171";
+              el.textContent = `❌ Pembayaran ${st}. Silakan tutup dan coba checkout ulang.`;
+            }
+          }
+        } catch (e) {}
+      }, 3000);
+    } catch (err) {
+      $("pg-qr-box").innerHTML = `<div style="color:#DC2626;font-size:12px;font-weight:700;text-align:center;">Gagal memuat pembayaran.<br>${escapeHtml(err.message)}</div>`;
+      $("pg-pay-status").style.color = "#F87171";
+      $("pg-pay-status").textContent = "❌ Koneksi pembayaran gagal.";
+    }
+  }
+
+  function renderPaidSuccessScreen() {
+    const paidAt = new Date().toLocaleString("id-ID", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      hour: "2-digit", minute: "2-digit", second: "2-digit"
+    });
+    const ord = activeOrder;
+
+    // Kosongkan keranjang otomatis
+    cart = [];
+    saveCart();
+    updateCartHeader();
+    refreshCardButtons();
+
+    const body = $("pg-pay-body");
+    body.innerHTML = `
+      <div style="text-align:center;padding:12px 6px;">
+        <div style="font-size:56px;line-height:1;">✅</div>
+        <div style="font-size:22px;font-weight:800;color:#4ADE80;margin:10px 0 8px;">Terima kasih sudah membayar!</div>
+        <div style="font-size:13px;color:#E5E7EB;line-height:1.6;margin-bottom:18px;">
+          Pembayaran untuk Order <b>${escapeHtml(ord.invoice_number)}</b> sebesar <b>${formatRp(ord.amount)}</b><br>
+          telah terkonfirmasi LUNAS secara otomatis.<br><br>
+          Pesanan kamu sudah diteruskan ke admin dan akan dikirim ke email:<br>
+          <b style="color:#93C5FD;">${escapeHtml(ord.email)}</b>
+        </div>
+        <button type="button" class="pg-btn pg-btn-tg" id="pg-succ-tg" style="width:100%;padding:10px;font-size:13px;margin-bottom:8px;">
+          💬 Chat Aku di Telegram
+        </button>
+        <button type="button" class="pg-btn pg-btn-success" id="pg-succ-done" style="width:100%;padding:10px;font-size:13px;">
+          Selesai & Kembali ke Katalog
+        </button>
+        <button type="button" class="pg-btn pg-btn-primary" id="pg-succ-save" style="width:100%;padding:12px;font-size:14px;margin-top:20px;">
+          💾 Save Bukti Pembelian (.JPG)
+        </button>
+      </div>
+    `;
+
+    $("pg-succ-tg").addEventListener("click", openTelegramChat);
+    $("pg-succ-done").addEventListener("click", () => {
+      $("pg-modal-pay").classList.remove("open");
+      $("pg-modal-cart").classList.remove("open");
+    });
+    $("pg-succ-save").addEventListener("click", () => downloadInvoiceJpg(ord, paidAt));
+  }
+
+  function downloadInvoiceJpg(ord, paidAt) {
+    const bonuses = ord.items.map((g) => g.bonus_game).filter(Boolean);
+    const width = 900;
+    const padX = 55;
+    const height = Math.max(720, 480 + ord.items.length * 32 + Math.max(1, bonuses.length) * 32 + 110);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "#111827";
+    ctx.fillRect(0, 0, width, 128);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 30px Segoe UI, sans-serif";
+    ctx.fillText("PAWANG GAME STORE", padX, 62);
+    ctx.fillStyle = "#9CA3AF";
+    ctx.font = "16px Segoe UI, sans-serif";
+    ctx.fillText("BUKTI PEMBELIAN RESMI / INVOICE", padX, 94);
+
+    ctx.fillStyle = "#10B981";
+    ctx.fillRect(width - padX - 140, 42, 140, 44);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "bold 18px Segoe UI, sans-serif";
+    ctx.fillText("LUNAS", width - padX - 102, 70);
+
+    ctx.fillStyle = "#F3F4F6";
+    ctx.fillRect(padX, 152, width - padX * 2, 192);
+    ctx.strokeStyle = "#D1D5DB";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(padX, 152, width - padX * 2, 192);
+
+    const rows = [
+      ["Order ID", ord.invoice_number],
+      ["Tanggal & Jam", paidAt],
+      ["Email Pengiriman", ord.email],
+      ["Status Pembayaran", "LUNAS (Terkonfirmasi Otomatis)"],
+      ["Total Pembayaran", formatRp(ord.amount)]
+    ];
+    let y = 186;
+    rows.forEach(([k, v]) => {
+      ctx.fillStyle = "#374151";
+      ctx.font = "bold 17px Segoe UI, sans-serif";
+      ctx.fillText(k, padX + 20, y);
+      ctx.fillStyle = (k === "Total Pembayaran" || k === "Status Pembayaran") ? "#059669" : "#111827";
+      ctx.font = (k === "Total Pembayaran") ? "bold 17px Segoe UI, sans-serif" : "17px Segoe UI, sans-serif";
+      ctx.fillText(":  " + v, padX + 230, y);
+      y += 34;
+    });
+
+    y = 390;
+    ctx.fillStyle = "#111827";
+    ctx.font = "bold 20px Segoe UI, sans-serif";
+    ctx.fillText("Daftar Game yang di beli", padX, y);
+    y += 14;
+    ctx.strokeStyle = "#D1D5DB";
+    ctx.beginPath(); ctx.moveTo(padX, y); ctx.lineTo(width - padX, y); ctx.stroke();
+    y += 28;
+    ctx.fillStyle = "#1F2937";
+    ctx.font = "17px Segoe UI, sans-serif";
+    ord.items.forEach((g, i) => {
+      ctx.fillText(`${i + 1}. ${g.title} (${g.category})`, padX + 8, y);
+      y += 30;
+    });
+
+    y += 22;
+    ctx.fillStyle = "#111827";
+    ctx.font = "bold 20px Segoe UI, sans-serif";
+    ctx.fillText("Daftar Bonus", padX, y);
+    y += 14;
+    ctx.beginPath(); ctx.moveTo(padX, y); ctx.lineTo(width - padX, y); ctx.stroke();
+    y += 28;
+    ctx.fillStyle = "#1F2937";
+    ctx.font = "17px Segoe UI, sans-serif";
+    if (bonuses.length > 0) {
+      bonuses.forEach((b, i) => {
+        ctx.fillText(`${i + 1}. ${b.title} (${b.category})`, padX + 8, y);
+        y += 30;
+      });
+    } else {
+      ctx.fillText("- Tidak memilih bonus", padX + 8, y);
+    }
+
+    ctx.fillStyle = "#6B7280";
+    ctx.font = "14px Segoe UI, sans-serif";
+    ctx.fillText("Terima kasih telah berbelanja di Pawang Game Store. Simpan bukti pembelian ini sebagai referensi.", padX, height - 36);
+
+    const link = document.createElement("a");
+    link.download = `Invoice_${ord.invoice_number}.jpg`;
+    link.href = canvas.toDataURL("image/jpeg", 0.95);
+    link.click();
+    showToast("Bukti pembelian berhasil diunduh!");
+  }
+
+  // ==========================================
+  // EVENT LISTENERS & INIT
+  // ==========================================
+  $("pg-btn-chat-header").addEventListener("click", openTelegramChat);
+  $("pg-btn-open-cart").addEventListener("click", () => {
+    renderCartModal();
+    $("pg-modal-cart").classList.add("open");
+  });
+  $("pg-cart-close").addEventListener("click", () => $("pg-modal-cart").classList.remove("open"));
+  $("pg-bonus-close").addEventListener("click", () => $("pg-modal-bonus").classList.remove("open"));
+  $("pg-prev-close").addEventListener("click", () => $("pg-modal-preview").classList.remove("open"));
+  $("pg-pay-close").addEventListener("click", () => {
+    stopPaymentPolling();
+    $("pg-modal-pay").classList.remove("open");
+  });
+
+  $("pg-sort-select").addEventListener("change", (e) => {
+    sortMode = e.target.value;
+    if (sortMode === "random") shuffledGames = shuffleArray(allGames);
+    resetAndRenderGrid();
+  });
+
+  let searchTimer = null;
+  $("pg-search-input").addEventListener("input", (e) => {
+    searchQuery = e.target.value;
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(resetAndRenderGrid, 150);
+  });
+
+  $("pg-load-more-btn").addEventListener("click", loadNextGridBatch);
+
+  $("pg-prev-left").addEventListener("click", () => {
+    const arr = (previewGame && previewGame.previews) || [];
+    if (arr.length > 1) {
+      previewIndex = (previewIndex - 1 + arr.length) % arr.length;
+      renderPreviewImage();
+    }
+  });
+  $("pg-prev-right").addEventListener("click", () => {
+    const arr = (previewGame && previewGame.previews) || [];
+    if (arr.length > 1) {
+      previewIndex = (previewIndex + 1) % arr.length;
+      renderPreviewImage();
+    }
+  });
+  $("pg-prev-yt").addEventListener("click", () => {
+    if (!previewGame) return;
+    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(previewGame.title + " gameplay")}`, "_blank", "noopener");
+  });
+  $("pg-prev-sysreq").addEventListener("click", () => {
+    if (!previewGame) return;
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(previewGame.title + " system requirements")}`, "_blank", "noopener");
+  });
+  $("pg-prev-add-cart").addEventListener("click", () => {
+    if (!previewGame) return;
+    toggleCart(previewGame, true);
+    $("pg-modal-preview").classList.remove("open");
+  });
+
+  // Kontrol Zoom & Pan + Proteksi Klik Kanan di Modal Preview
+  $("pg-zoom-in").addEventListener("click", () => setPreviewZoom(previewZoom + 0.4));
+  $("pg-zoom-out").addEventListener("click", () => setPreviewZoom(previewZoom - 0.4));
+  $("pg-zoom-level").addEventListener("click", resetPreviewZoom);
+
+  const prevBox = $("pg-prev-img-box");
+  prevBox.addEventListener("contextmenu", (e) => e.preventDefault());
+  prevBox.addEventListener("dragstart", (e) => e.preventDefault());
+  prevBox.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.25 : -0.25;
+    setPreviewZoom(previewZoom + delta);
+  }, { passive: false });
+
+  prevBox.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    dragMoved = false;
+    if (previewZoom > 1) {
+      isDraggingZoom = true;
+      dragStartX = e.clientX - panX;
+      dragStartY = e.clientY - panY;
+      prevBox.classList.add("dragging");
+    }
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDraggingZoom) return;
+    dragMoved = true;
+    panX = e.clientX - dragStartX;
+    panY = e.clientY - dragStartY;
+    applyPreviewTransform();
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (isDraggingZoom) {
+      isDraggingZoom = false;
+      prevBox.classList.remove("dragging");
+    }
+  });
+
+  prevBox.addEventListener("click", () => {
+    if (dragMoved) {
+      dragMoved = false;
+      return;
+    }
+    setPreviewZoom(previewZoom > 1 ? 1 : 2);
+  });
+
+  // Blokir klik kanan pada seluruh area grid cover & modal preview
+  $("pg-grid").addEventListener("contextmenu", (e) => {
+    if (e.target.closest(".pg-cover-wrap")) e.preventDefault();
+  });
+
+  $("pg-buyer-email").addEventListener("input", validateCheckoutBtn);
+  $("pg-btn-checkout").addEventListener("click", startCheckoutPayment);
+
+  $("pg-bonus-search").addEventListener("input", resetBonusList);
+  $("pg-bonus-scroll-body").addEventListener("scroll", function () {
+    if (this.scrollTop + this.clientHeight >= this.scrollHeight - 40) {
+      loadNextBonusBatch();
+    }
+  });
+
+  $("pg-proof-file-input").addEventListener("change", async function () {
+    const file = this.files && this.files[0];
+    this.value = "";
+    if (!file || !activeOrder || !activeOrder.invoice_number) return;
+
+    const btn = $("pg-upload-proof-btn");
+    if (btn) { btn.disabled = true; btn.textContent = "Mengirim bukti..."; }
+
+    try {
+      const fd = new FormData();
+      fd.append("photo", file);
+      fd.append("invoice_number", activeOrder.invoice_number);
+      fd.append("email", activeOrder.email);
+      fd.append("amount", String(activeOrder.amount));
+      fd.append("items_json", JSON.stringify(activeOrder.items));
+
+      const resp = await fetch(API_BASE_URL.replace(/\/$/, "") + "/upload-proof", { method: "POST", body: fd });
+      const data = await resp.json();
+      if (!resp.ok || data.error) throw new Error(data.error || "Gagal kirim bukti");
+      if (btn) { btn.disabled = false; btn.textContent = "✓ Bukti Terkirim"; }
+      showToast("Bukti pembayaran berhasil dikirim ke admin!");
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = "📎 Upload Bukti Bayar"; }
+      showToast("Gagal mengirim bukti: " + err.message);
+    }
+  });
+
+  // Infinite scroll 30 game di halaman utama
+  if ("IntersectionObserver" in window) {
+    const obs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && gridLoaded < filteredGames.length) {
+        loadNextGridBatch();
+      }
+    }, { rootMargin: "200px" });
+    obs.observe($("pg-scroll-sentinel"));
+  }
+
+  // Mulai muat katalog dari GitHub
+  async function initApp() {
+    loadCart();
+    updateCartHeader();
+    buildAlphabetBar();
+
+    try {
+      const resp = await fetch(CATALOG_URL);
+      if (!resp.ok) throw new Error("HTTP " + resp.status);
+      const data = await resp.json();
+      allGames = Array.isArray(data.games) ? data.games : [];
+      shuffledGames = shuffleArray(allGames);
+      buildCategories();
+      resetAndRenderGrid();
+    } catch (err) {
+      $("pg-status-text").textContent = "Gagal memuat katalog dari GitHub. Pastikan internet aktif lalu muat ulang halaman.";
+    }
+  }
+
+  initApp();
+})();
+</script>
+</body>
+</html>
